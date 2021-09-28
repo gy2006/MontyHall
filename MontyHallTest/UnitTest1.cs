@@ -1,18 +1,14 @@
+using MontyHall;
 using NUnit.Framework;
 
 namespace MontyHallTest
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            var game = new Game(false);
         }
     }
 }
