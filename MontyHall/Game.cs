@@ -15,9 +15,9 @@ namespace MontyHall
         
         private readonly bool _isChangeDoor;
 
-        private int _playerChooseIndex = -1;
+        private int _playerSelectedIndex = -1;
 
-        private int _presenterOpenIndex = -1;
+        private int _presenterOpenedIndex = -1;
 
         public Game(bool changeDoor)
         {
@@ -26,43 +26,43 @@ namespace MontyHall
             InitDoors();
         }
 
-        public void PlayerChoose(Action action = null)
+        public void PlayerSelect(Action action = null)
         {
-            _playerChooseIndex = RandInt(0, 3);
-            action?.Invoke(Doors[_playerChooseIndex]);
+            _playerSelectedIndex = RandInt(0, 3);
+            action?.Invoke(Doors[_playerSelectedIndex]);
         }
 
         public void PresenterOpen(Action action = null)
         {
-            if (_playerChooseIndex == -1)
+            if (_playerSelectedIndex == -1)
                 throw new Exception("Player should choose a door first");
 
-            if (_playerChooseIndex == CarIndex)
+            if (_playerSelectedIndex == CarIndex)
             {
-                _presenterOpenIndex = GoatIndexArray[RandInt(0, 2)];
-                action?.Invoke(Doors[_presenterOpenIndex]);
+                _presenterOpenedIndex = GoatIndexArray[RandInt(0, 2)];
+                action?.Invoke(Doors[_presenterOpenedIndex]);
                 return;
             }
 
             foreach (var goatIndex in GoatIndexArray)
             {
-                if (goatIndex == _playerChooseIndex) continue;
-                _presenterOpenIndex = goatIndex;
-                action?.Invoke(Doors[_presenterOpenIndex]);
+                if (goatIndex == _playerSelectedIndex) continue;
+                _presenterOpenedIndex = goatIndex;
+                action?.Invoke(Doors[_presenterOpenedIndex]);
                 return;
             }
         }
         
-        public bool PlayOpen(Action action = null)
+        public bool PlayerOpen(Action action = null)
         {
-            if (_presenterOpenIndex == -1)
+            if (_presenterOpenedIndex == -1)
                 throw new Exception("Presenter should open a door first");
             
             if (_isChangeDoor)
                 PlayerChange();
 
-            action?.Invoke(Doors[_playerChooseIndex]);
-            return Doors[_playerChooseIndex].Behind == BehindItem.Car;
+            action?.Invoke(Doors[_playerSelectedIndex]);
+            return Doors[_playerSelectedIndex].Behind == BehindItem.Car;
         }
 
         private void InitDoors()
@@ -85,7 +85,7 @@ namespace MontyHall
 
         private void PlayerChange()
         {
-            _playerChooseIndex = 3 - _playerChooseIndex - _presenterOpenIndex;
+            _playerSelectedIndex = 3 - _playerSelectedIndex - _presenterOpenedIndex;
         }
 
         private static int RandInt(int min, int max)

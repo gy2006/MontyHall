@@ -23,7 +23,7 @@ namespace MontyHallTest
             var game = new Game(false);
 
             Door playerSelected = null;
-            game.PlayerChoose(door => playerSelected = door);
+            game.PlayerSelect(door => playerSelected = door);
 
             Door presenterOpened = null;
             game.PresenterOpen(door => presenterOpened = door);
@@ -31,7 +31,7 @@ namespace MontyHallTest
             Assert.AreNotEqual(playerSelected, presenterOpened);
             
             Door playerOpened = null;
-            var isCar = game.PlayOpen(door => playerOpened = door);
+            var isCar = game.PlayerOpen(door => playerOpened = door);
             Assert.AreEqual(playerSelected, playerOpened);
             Assert.AreEqual(playerOpened.Behind == BehindItem.Car, isCar);
         }
@@ -42,7 +42,7 @@ namespace MontyHallTest
             var game = new Game(true);
 
             Door playerSelected = null;
-            game.PlayerChoose(door => playerSelected = door);
+            game.PlayerSelect(door => playerSelected = door);
             
             Door presenterOpened = null;
             game.PresenterOpen(door => presenterOpened = door);
@@ -50,7 +50,7 @@ namespace MontyHallTest
             Assert.AreNotEqual(playerSelected, presenterOpened);
             
             Door playerOpened = null;
-            var isCar = game.PlayOpen(door => playerOpened = door);
+            var isCar = game.PlayerOpen(door => playerOpened = door);
             Assert.AreNotEqual(playerSelected, playerOpened);
 
             var expectedOpenedIndex = 3 - (presenterOpened.Number - 1) - (playerSelected.Number - 1);
